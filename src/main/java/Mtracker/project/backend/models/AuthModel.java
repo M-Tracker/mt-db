@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "users") 
-public class authModel {
+public class AuthModel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

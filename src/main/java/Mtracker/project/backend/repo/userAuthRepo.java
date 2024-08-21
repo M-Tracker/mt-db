@@ -1,11 +1,11 @@
 package Mtracker.project.backend.repo;
-import Mtracker.project.backend.models.authModel;
+import Mtracker.project.backend.models.AuthModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface userAuthRepo extends JpaRepository<authModel, Integer>{
-	authModel findByEmail(String email);
+public interface userAuthRepo extends JpaRepository<AuthModel, Integer>{
+	AuthModel findByEmail(String email);
 	
-	authModel findByUsername(String username);
+	AuthModel findByUsername(String username);
 }
