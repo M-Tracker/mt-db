@@ -7,9 +7,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+
 @Data
 @Entity
-@Table(name = "users")
+@Table(name = "users") 
 public class authModel {
 
 	@Id
