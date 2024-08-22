@@ -1,6 +1,11 @@
 package Mtracker.project.backend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +19,15 @@ public class userAuthService {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private JwtUtil jwtUtil;
+	
+	@Autowired
+	private customUserDetailService userDetailsService;
+	
+	@Autowired
+	private AuthenticationManager authenticationManager;
 	
 	public AuthModel registerUser(String username, String email, String password, String firstName, String lastName) {
         // Check if email or username already exists
@@ -41,24 +55,21 @@ public class userAuthService {
         return userRepo.save(newUser);
     }
 	
-	public boolean loginUserByEmail(String email, String password) {
-		AuthModel founduser = userRepo.findByEmail(email);
-		
-		if (founduser != null & passwordEncoder.encode(password)==founduser.getPassword()){
-			return true;
-		}
-		
-		return false;
-	}
 	
-	public boolean loginUserByUserName(String username, String password) {
-		AuthModel founduser = userRepo.findByUsername(username);
-		
-		if (founduser != null & passwordEncoder.encode(password)==founduser.getPassword()){
-			return true;
+	
+	public String loginUserByUserName(String username, String password) {
+		try {
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+		} catch (Exception e) {
+			
+			return null;
 		}
 		
-		return false;
+		final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+		
+		final String jwt = jwtUtil.generateToken(userDetails.getUsername());
+		
+		return jwt;
 	}
 	
 }

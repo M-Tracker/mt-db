@@ -3,7 +3,7 @@ package Mtracker.project.backend.dto;
 import lombok.Data;
 
 @Data
-public class registerDto {
+public class RegisterDto {
 	
 	
 	private String username;

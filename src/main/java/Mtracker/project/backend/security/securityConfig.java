@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import Mtracker.project.backend.service.customUserDetailService;
 
@@ -20,6 +21,9 @@ public class securityConfig{
 	
 	@Autowired
 	private customUserDetailService userDetailsService;
+	
+	@Autowired
+	public JwtRequestFilter jwtRequestFilter;
 	
 	@Autowired
 	public securityConfig(customUserDetailService userDetailsService) {
@@ -32,7 +36,8 @@ public class securityConfig{
 			.csrf(csrf -> csrf.disable())
 			.authorizeHttpRequests(authz -> authz
 					.requestMatchers("/api/auth/register","/api/auth/login").permitAll()
-					.anyRequest().authenticated());
+					.anyRequest().authenticated())
+			.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
 		
 		return http.build();
