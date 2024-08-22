@@ -2,16 +2,15 @@ package Mtracker.project.backend.contoller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import Mtracker.project.backend.dto.AuthResponseDto;
 import Mtracker.project.backend.dto.LoginDto;
 import Mtracker.project.backend.dto.RegisterDto;
 import Mtracker.project.backend.models.AuthModel;
@@ -31,7 +30,10 @@ public class MtrackerAuthController {
 
 	@CrossOrigin
 	@PostMapping("register")
-	public ResponseEntity<String> registerUser(@RequestBody RegisterDto registerdto) {
+	public ResponseEntity<AuthResponseDto> registerUser(@RequestBody RegisterDto registerdto) {
+		String jwt="";
+		String message = "Eithor username or email already exists";
+		String httpStatus = "400";
         try {
             AuthModel newUser = userService.registerUser(
                 registerdto.getUsername(),
@@ -41,32 +43,36 @@ public class MtrackerAuthController {
                 registerdto.getLastName()
             );
             
-            
-            
-            
         } catch (IllegalStateException e) {
-            return new ResponseEntity<>((e.getMessage()), HttpStatus.BAD_REQUEST);
+        	AuthResponseDto authResponseDto = new AuthResponseDto(jwt, message,httpStatus);
+            return new ResponseEntity<AuthResponseDto>(authResponseDto, HttpStatus.BAD_REQUEST);
         }
         
-        String jwt = userService.loginUserByUserName(registerdto.getUsername(), registerdto.getPassword());
-        return new ResponseEntity<>(jwt, HttpStatus.OK);
+        jwt = userService.loginUserByUserName(registerdto.getUsername(), registerdto.getPassword());
+        message = "User Successfully Created";
+        httpStatus = "200";
+        AuthResponseDto authResponseDto = new AuthResponseDto(jwt, message,httpStatus);
+        return new ResponseEntity<AuthResponseDto>(authResponseDto, HttpStatus.OK);
         //In next project set roles here for users and admins.
     }
 	
 	@PostMapping("login")
-	public ResponseEntity<String> login(@RequestBody LoginDto logindto) {
+	public ResponseEntity<AuthResponseDto> login(@RequestBody LoginDto logindto) {
 		
 		String jwt = userService.loginUserByUserName(logindto.getUsername(), logindto.getPassword());
+		String message = "Username or password not correct";
+		String httpStatus = "400";
 		
 		if (jwt == null) {
-			return new ResponseEntity<>("Authenication Failed", HttpStatus.BAD_REQUEST);
+			AuthResponseDto authResponseDto = new AuthResponseDto(jwt, message,httpStatus);
+			return new ResponseEntity<>(authResponseDto, HttpStatus.BAD_REQUEST);
 		}else {
-			return new ResponseEntity<>(jwt, HttpStatus.OK);
+			message = "User logged in Successfully";
+			httpStatus = "200";
+			AuthResponseDto authResponseDto = new AuthResponseDto(jwt, message,httpStatus);
+			return new ResponseEntity<>(authResponseDto, HttpStatus.OK);
 		}
-		
-		
+			
 	}
-	
-	
 	
 }
