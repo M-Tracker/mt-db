@@ -8,4 +8,5 @@ public interface userAuthRepo extends JpaRepository<AuthModel, Integer>{
 	AuthModel findByEmail(String email);
 	
 	AuthModel findByUsername(String username);
+	
 }
