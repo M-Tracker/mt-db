@@ -1,3 +1,12 @@
+//This controller handles the data of the user
+//All encpoints are accessible only to authenticated users
+//This controller is responsible for endpoints that help in:
+/*
+ * -fetching user details
+ * -fetching mistake/problem details
+ * -adding a new mistake
+ * -deleting a mistake*/
+
 package Mtracker.project.backend.contoller;
 
 import java.net.http.HttpRequest;
@@ -22,7 +31,7 @@ public class MtrackerUserResponseController {
 	private ResponseService responseService;
 	
 	@GetMapping("details")
-	public ResponseEntity<?> getDetails(){
+	public ResponseEntity<AuthModel> getDetails(){
         var detail = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
         AuthModel userDetails = responseService.userResponseDetails(detail.getUsername());
