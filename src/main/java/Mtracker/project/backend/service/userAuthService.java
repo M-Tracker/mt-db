@@ -37,12 +37,7 @@ public class userAuthService {
         if (userRepo.findByUsername(username) != null) {
             throw new IllegalStateException("Username already taken");
         }
-        
-        System.out.println("username: " + username);
-        System.out.println("firstName: " + firstName);
-        System.out.println("lastName: " + lastName);
-        System.out.println("password: " + password);
-        System.out.println("email: " + email);
+
 
         AuthModel newUser = new AuthModel();
         newUser.setUsername(username);
@@ -51,7 +46,6 @@ public class userAuthService {
         newUser.setLastName(lastName);
         newUser.setPassword(passwordEncoder.encode(password)); // Encrypt the password
 
-        System.out.println("Did something that is expected");
         return userRepo.save(newUser);
     }
 	
