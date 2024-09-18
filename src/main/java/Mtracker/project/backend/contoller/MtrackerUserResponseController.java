@@ -36,5 +36,6 @@ public class MtrackerUserResponseController {
         
         AuthModel userDetails = responseService.userResponseDetails(detail.getUsername());
         return new ResponseEntity<>(userDetails,HttpStatus.OK);
+
     }
 }

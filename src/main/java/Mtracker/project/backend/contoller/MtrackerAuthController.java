@@ -16,6 +16,7 @@ import Mtracker.project.backend.dto.RegisterDto;
 import Mtracker.project.backend.models.AuthModel;
 import Mtracker.project.backend.service.userAuthService;
 
+
 @RestController
 @RequestMapping("/api/auth")
 public class MtrackerAuthController {

@@ -16,5 +16,6 @@ public class ResponseService {
 	public AuthModel userResponseDetails(String username) {
 		AuthModel userDetails = repo.findByUsername(username);
 		return userDetails;
+
 	}
 }

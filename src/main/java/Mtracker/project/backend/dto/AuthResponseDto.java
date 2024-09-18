@@ -30,5 +30,6 @@ public class AuthResponseDto {
 	public void setHttpStatus(String httpStatus) {
 		this.httpStatus = httpStatus;
 	}
-	
+
+
 }
