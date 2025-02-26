@@ -16,7 +16,6 @@ import Mtracker.project.backend.dto.RegisterDto;
 import Mtracker.project.backend.models.AuthModel;
 import Mtracker.project.backend.service.userAuthService;
 
-
 @RestController
 @RequestMapping("/api/auth")
 public class MtrackerAuthController {
@@ -54,7 +53,7 @@ public class MtrackerAuthController {
         httpStatus = "200";
         AuthResponseDto authResponseDto = new AuthResponseDto(jwt, message,httpStatus);
         return new ResponseEntity<AuthResponseDto>(authResponseDto, HttpStatus.OK);
-         //In next project set roles here for users and admins.
+        //In next project set roles here for users and admins.
     }
 	
 	@PostMapping("login")

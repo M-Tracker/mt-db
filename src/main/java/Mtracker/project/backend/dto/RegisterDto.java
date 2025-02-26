@@ -43,6 +43,5 @@ public class RegisterDto {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-
-
+	
 }
